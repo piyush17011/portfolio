@@ -1,0 +1,24 @@
+.desktop-icon {
+  width: 80px;
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+  cursor: default;
+}
+
+.icon-img {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+}
+
+.icon-label {
+  display: block;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
