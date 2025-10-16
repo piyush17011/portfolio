@@ -77,7 +77,104 @@ html, body {
 .icons-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  gap: 20px;
   padding: 20px;
-  gap: 15px;
+  align-items: flex-start;
+}
+.inner-icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 30px;
+  margin-top: 20px;
+  justify-items: center;
+}
+
+.inner-icons img {
+  width: 60px;
+  height: 60px;
+}
+
+.inner-icons .label {
+  color: black;
+  text-align: center;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+/* Full desktop covering screen exactly */
+.desktop {
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+}
+
+
+/* Taskbar fixed at bottom */
+.taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: rgba(20, 20, 20, 0.8);
+  border-top: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: white;
+  font-size: 14px;
+  padding-right: 10px;
+}
+.hobbies-window {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.game-icons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.game-icons img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.game-icons img:hover {
+  transform: scale(1.1);
+}
+
+.media-player {
+  background-color: #e7edf2;
+  border: 2px solid #a3b7cc;
+  border-radius: 6px;
+  padding: 15px;
+  color: #000;
+  font-family: "Segoe UI", sans-serif;
+  text-align: center;
+}
+
+.media-player h3 {
+  background: linear-gradient(#d7e4f2, #b5cbe6);
+  padding: 6px;
+  border: 1px solid #8faac9;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.media-player audio {
+  width: 100%;
+  outline: none;
+  margin: 10px 0;
 }
