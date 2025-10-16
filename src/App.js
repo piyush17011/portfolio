@@ -40,8 +40,8 @@ function App() {
               <h3>My Computer</h3>
               <p>Welcome! Explore my digital desktop — each section gives insights into my journey.</p>
               <ul>
-                <li><b>Skills:</b> JavaScript, React, Node.js, MySQL, etc.</li>
-                <li><b>Education:</b> B.E. Information Technology</li>
+                <li><b>Skills:</b> Java, JavaScript, Node.js, MySQL, etc.</li>
+                <li><b>Education:</b> B.Tech. Information Technology</li>
                 <li><b>Experience:</b> Built multiple MERN projects, worked with APIs.</li>
               </ul>
             </div>
@@ -49,30 +49,30 @@ function App() {
           {openWindow === "Documents" && (
             <div>
               <h3>Education</h3>
-              <p>Graduated in Information Technology from XYZ University with distinction.</p>
-              <p>Key Courses: Data Structures, Web Dev, Cloud, AI.</p>
+              <p>Graduated in Information Technology from Mumbai University.</p>
+              <p>Key Courses: Web Dev, Cloud, OOP .</p>
             </div>
           )}
           {openWindow === "Projects" && (
             <div>
               <h3>Projects</h3>
-              <p>• Sign Language Recognition (MERN + LSTM)</p>
-              <p>• Weather Forecasting IoT Project</p>
+              <p>• Sign Language Recognition </p>
+              <p>• Mumbai Dabbewala</p>
               <p>• IT Workspace – task management platform</p>
             </div>
           )}
           {openWindow === "Contact" && (
             <div>
               <h3>Contact</h3>
-              <p>Email: piyush@example.com</p>
+              <p>Email: piyushbhalwalkar01@gmail.com</p>
               <p>LinkedIn: linkedin.com/in/piyushbhalwalkar</p>
-              <p>GitHub: github.com/piyushbhalwalkar</p>
+              <p>GitHub: github.com/piyush17011</p>
             </div>
           )}
           {openWindow === "Recycle Bin" && (
             <div>
               <h3>Recycle Bin</h3>
-              <p>Nothing to delete here 😄</p>
+              <p>Nothing here</p>
             </div>
           )}
         </Window>
