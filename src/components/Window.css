@@ -38,3 +38,48 @@
   color: black;
   line-height: 1.4;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .window {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    height: auto;
+    min-height: 300px;
+  }
+
+  .window-body {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .window-header {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .close-btn {
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .window {
+    width: 95vw;
+    height: auto;
+    min-height: 260px;
+  }
+
+  .window-body {
+    font-size: 12px;
+  }
+
+  .window-header {
+    font-size: 13px;
+  }
+}

@@ -32,3 +32,45 @@
   text-align: right;
   margin-right: 10px;
 }
+
+/* Mobile / Tablet Responsiveness for Taskbar */
+@media (max-width: 768px) {
+  .taskbar {
+    height: 44px;
+    font-size: 13px;
+    padding: 0 8px;
+  }
+
+  .start-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+    margin-left: 5px;
+  }
+
+  .time {
+    min-width: 60px;
+    font-size: 13px;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+  .taskbar {
+    height: 50px;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 0 6px;
+  }
+
+  .start-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .time {
+    min-width: auto;
+    font-size: 12px;
+    margin-right: 5px;
+  }
+}

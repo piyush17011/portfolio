@@ -22,3 +22,38 @@
   background: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
 }
+
+/* Mobile / Tablet Responsiveness for Desktop Icons */
+@media (max-width: 768px) {
+  .desktop-icon {
+    width: 60px;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .icon-img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .icon-label {
+    font-size: 11px;
+    margin-top: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .desktop-icon {
+    width: 50px;
+  }
+
+  .icon-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .icon-label {
+    font-size: 10px;
+    margin-top: 2px;
+  }
+}

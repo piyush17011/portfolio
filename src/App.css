@@ -178,3 +178,102 @@ html, body {
   outline: none;
   margin: 10px 0;
 }
+
+/* 📱 Mobile & Tablet Responsive Fixes */
+@media (max-width: 768px) {
+
+  html, body {
+    overflow: auto; /* allow scrolling on mobile */
+    height: auto;
+  }
+
+  .desktop {
+    flex-direction: column; /* stack vertically */
+    height: auto;
+    padding-bottom: 60px; /* space for taskbar */
+    overflow: auto;
+  }
+
+  .icons-container {
+    padding: 10px;
+    gap: 15px;
+    align-items: center; /* center icons */
+  }
+
+  .inner-icons {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 15px;
+  }
+
+  .inner-icons img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .inner-icons .label {
+    font-size: 12px;
+  }
+
+  /* Folder Grid Smaller */
+  .folder-grid {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 10px;
+  }
+
+  .folder img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .folder p {
+    font-size: 11px;
+  }
+
+  /* Taskbar responsive */
+  .taskbar {
+    height: 50px;
+    justify-content: space-between;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+
+  .start-button img {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Game icons adjust */
+  .game-icons img {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Media Player adjust */
+  .media-player {
+    width: 90%;
+    margin: auto;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .media-player h3 {
+    font-size: 12px;
+    padding: 4px;
+  }
+}
+
+/* Extra tiny screens */
+@media (max-width: 480px) {
+  .inner-icons {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  }
+
+  .folder-grid {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  }
+
+  .taskbar {
+    height: 45px;
+  }
+}
+
