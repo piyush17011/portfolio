@@ -183,15 +183,15 @@ html, body {
 @media (max-width: 768px) {
 
   html, body {
-    overflow: auto; /* allow scrolling on mobile */
-    height: auto;
+    overflow-x: hidden; /* keep horizontal scroll hidden */
+    overflow-y: auto;   /* allow vertical scroll on mobile */
   }
 
   .desktop {
-    flex-direction: column; /* stack vertically */
-    height: auto;
-    padding-bottom: 60px; /* space for taskbar */
-    overflow: auto;
+    height: 100%;          /* allow flexible height */
+    min-height: 100vh;     /* ensures it fills viewport */
+    overflow-y: auto;      /* allow scrolling if content is taller */
+    padding-bottom: 50px;  /* space for taskbar */
   }
 
   .icons-container {
