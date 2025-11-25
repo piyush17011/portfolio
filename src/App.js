@@ -20,7 +20,6 @@ import blueWallpaper from "./assets/wallpapers/blue-wallpaper.jpg";
 const wallpapers = [win7Wallpaper, blueWallpaper];
 
 const defaultPosition = { x: 200, y: 90 };
-const defaultWindowState = {};
 const resumePath = "/assets/resume.pdf";
 
 const ContextMenu = ({ x, y, onClose, onChangeWallpaper }) => {
