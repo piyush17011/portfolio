@@ -213,7 +213,16 @@ function App() {
           {window === "Contact" && (
             <div>
               <h3>Contact</h3>
-              <p>Email: <a href="mailto:piyushbhalwalkar01@gmail.com">piyushbhalwalkar01@gmail.com</a></p>
+              <p>
+                Email:{" "}
+                <a
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=piyushbhalwalkar01@gmail.com"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  piyushbhalwalkar01@gmail.com
+                </a>
+              </p>
               <p>LinkedIn: <a href="https://linkedin.com/in/piyushbhalwalkar" target="_blank" rel="noreferrer">linkedin.com/in/piyushbhalwalkar</a></p>
               <p>GitHub: <a href="https://github.com/piyush17011" target="_blank" rel="noreferrer">github.com/piyush17011</a></p>
             </div>
