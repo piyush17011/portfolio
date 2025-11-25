@@ -40,6 +40,7 @@ const Window = ({
             >
               &#95;
             </button>
+            
             <button
               className="max-btn"
               title={isMaximized ? "Restore" : "Maximize"}
