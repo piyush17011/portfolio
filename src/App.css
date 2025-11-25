@@ -277,3 +277,26 @@ html, body {
   }
 }
 
+.context-menu {
+  position: fixed;
+  background: #fff;
+  border: 1px solid #b5c7de;
+  box-shadow: 2px 4px 16px rgba(20,30,80,0.13);
+  border-radius: 5px;
+  min-width: 160px;
+  z-index: 1200;
+  padding: 5px 0;
+  font-family: "Segoe UI", sans-serif;
+}
+.cmenu-item {
+  padding: 7px 16px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #19509b;
+  transition: background .14s, color .15s;
+}
+.cmenu-item:hover {
+  background: #e0edff;
+  color: #1475e1;
+}
+

@@ -1,0 +1,79 @@
+.start-menu {
+  position: fixed;
+  left: 10px;
+  bottom: 48px;
+  z-index: 101;
+  min-width: 280px;
+  background: #fdfdfd;
+  border-radius: 9px 9px 10px 10px;
+  box-shadow: 0 8px 24px rgba(20,30,80,0.18), 0 2px 5px #ddd;
+  padding: 15px 0 10px 0;
+  border: 1px solid #c9dae7;
+  font-family: "Segoe UI", sans-serif;
+}
+.sm-profile {
+  display: flex;
+  align-items: center;
+  padding: 0 18px 8px 18px;
+}
+.sm-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  margin-right: 13px;
+  background: #e7e7e7;
+}
+.sm-info {
+  display: flex;
+  flex-direction: column;
+}
+.sm-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #23448c;
+}
+.sm-role {
+  font-size: 13px;
+  color: #5372bc;
+}
+.sm-links {
+  margin: 12px 0 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sm-link {
+  padding: 8px 24px;
+  font-size: 15px;
+  color: #19498c;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  transition: background 0.16s;
+}
+.sm-link:hover {
+  background: #e8eefc;
+  color: #195ded;
+}
+.sm-divider {
+  border-bottom: 1px solid #c3d5ec;
+  margin: 6px 8px 9px 8px;
+}
+.sm-shutdown {
+  width: 90%;
+  margin: 5px auto 0 auto;
+  display: block;
+  padding: 7px 0;
+  font-size: 15px;
+  background: linear-gradient(90deg, #ed4747 0%, #ad1717 100%);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.sm-shutdown:hover {
+  background: linear-gradient(90deg, #ad1717 0%, #ed4747 100%);
+}
