@@ -104,7 +104,7 @@ function App() {
             {window === "Documents" && (
               <div>
                 <h3>Education</h3>
-                <p>B.Tech (Information Technology), Mumbai University</p>
+                <p>B.Tech (Information Technology), Mumbai University : 9.3 CGPA</p>
                 <p>Key Courses: Web Development, Cloud Computing, OOP</p>
               </div>
             )}
@@ -123,6 +123,9 @@ function App() {
               <div>
                 <h3>Projects</h3>
                 <ul>
+                  <li>Shoelify - An Ecommerce Website for Sneaker Heads</li>
+                  <li>🍱 Animator's Portfolio</li>
+                  <li>💻 XO - Tic-Tac-Toe Game </li>
                   <li>🧠 Sign Language Recognition</li>
                   <li>🍱 Mumbai Dabbewala Management</li>
                   <li>💻 IT Workspace – Task Scheduling Platform</li>
