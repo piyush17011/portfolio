@@ -125,7 +125,7 @@ function App() {
                 <ul>
                   <li>Shoelify - An Ecommerce Website for Sneaker Heads</li>
                   <li>🍱 Animator's Portfolio</li>
-                  <li>💻 XO - Tic-Tac-Toe Game </li>
+                  <li>💻 XO - Tic-Tac-Toe Game</li>
                   <li>🧠 Sign Language Recognition</li>
                   <li>🍱 Mumbai Dabbewala Management</li>
                   <li>💻 IT Workspace – Task Scheduling Platform</li>
@@ -169,4 +169,3 @@ function App() {
   );
 }
 
-export default App;

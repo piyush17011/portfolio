@@ -39,6 +39,47 @@
   line-height: 1.4;
 }
 
+.window-controls {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.min-btn, .max-btn, .close-btn {
+  background: #354968;
+  color: white;
+  border: none;
+  width: 19px;
+  height: 19px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-left: 1px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.16s;
+}
+.min-btn:hover, .max-btn:hover {
+  background: #738acb;
+}
+.close-btn {
+  background: #d9534f;
+}
+.close-btn:hover {
+  background: #b91e1a;
+}
+
+.window.maximized {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: calc(100vh - 38px) !important;
+  border-radius: 0 0 4px 4px !important;
+}
+.window.minimized {
+  display: none !important;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .window {

@@ -25,6 +25,27 @@
   box-shadow: inset 0 0 2px rgba(255,255,255,0.3);
   margin-left: 5px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+.start-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+/* Start Menu overlay (to be implemented) */
+.start-menu {
+  position: fixed;
+  left: 10px;
+  bottom: 48px;
+  z-index: 101;
+  min-width: 280px;
+  background: #fafcff;
+  border-radius: 6px 6px 12px 12px;
+  box-shadow: 0 8px 24px rgba(30,30,60,0.16), 0 1.5px 0 #dfdfdf;
+  padding: 16px 0 14px 0;
+  border: 1px solid #c9dae7;
 }
 
 .time {
