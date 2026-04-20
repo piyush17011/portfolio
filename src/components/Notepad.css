@@ -1,0 +1,92 @@
+/* ── Notepad.css ── */
+
+.notepad {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.np-menubar {
+  display: flex;
+  background: linear-gradient(to bottom, #f0f0f0, #e4e4e4);
+  border-bottom: 1px solid #ccc;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+.np-menu-item {
+  padding: 3px 10px;
+  font-size: 12px;
+  color: #111;
+  cursor: pointer;
+  border-radius: 2px;
+  user-select: none;
+}
+
+.np-menu-item:hover {
+  background: rgba(50,120,220,0.15);
+}
+
+.np-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 6px;
+  background: linear-gradient(to bottom, #f8f8f8, #ececec);
+  border-bottom: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.np-tool-btn {
+  padding: 3px 8px;
+  font-size: 12px;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  color: #111;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.1s;
+}
+
+.np-tool-btn:hover {
+  background: rgba(50,120,220,0.12);
+  border-color: rgba(80,140,220,0.3);
+}
+
+.np-tool-sep {
+  width: 1px;
+  height: 18px;
+  background: #ccc;
+  margin: 0 3px;
+}
+
+.np-textarea {
+  flex: 1;
+  resize: none;
+  border: none;
+  outline: none;
+  padding: 8px 10px;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 13px;
+  color: #111;
+  background: #fff;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+.np-statusbar {
+  display: flex;
+  gap: 16px;
+  padding: 3px 10px;
+  font-size: 11px;
+  color: #666;
+  background: linear-gradient(to bottom, #f0f0f0, #e8e8e8);
+  border-top: 1px solid #ccc;
+  flex-shrink: 0;
+}

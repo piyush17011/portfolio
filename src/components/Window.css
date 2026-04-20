@@ -1,126 +1,269 @@
+/* ── Window.css ── Windows 7 Aero Glass ── */
+
 .window {
   position: absolute;
-  top: 80px;
-  left: 200px;
-  width: 480px;
-  height: 380px;
-  background: #ece9d8;
-  border: 2px solid #000;
-  box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
-  border-radius: 3px;
-  overflow: auto;
-  z-index: 10;
-}
-
-.window-header {
-  background: linear-gradient(#1a4d9e, #0a2d73);
-  color: white;
-  padding: 6px 10px;
+  top: 0;
+  left: 0;
+  width: 700px;
+  height: 460px;
+  min-width: 320px;
+  min-height: 200px;
+  border-radius: 8px 8px 4px 4px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
+  flex-direction: column;
+  overflow: hidden;
+
+  /* Aero glass border */
+  border: 1px solid rgba(120, 180, 255, 0.55);
+  outline: 1px solid rgba(0, 0, 0, 0.25);
+
+  /* Glass background */
+  background: rgba(200, 225, 255, 0.18);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+
+  /* Aero drop shadow */
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  transition: box-shadow 0.15s ease;
 }
 
-.close-btn {
-  background: #d9534f;
-  color: white;
-  border: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 2px;
-  cursor: pointer;
+.window:focus-within,
+.window:focus {
+  outline: none;
+  box-shadow:
+    0 12px 48px rgba(0, 80, 200, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  border-color: rgba(80, 160, 255, 0.75);
 }
 
-.window-body {
-  padding: 15px;
-  font-size: 14px;
-  color: black;
-  line-height: 1.4;
-}
-
-.window-controls {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-}
-.min-btn, .max-btn, .close-btn {
-  background: #354968;
-  color: white;
-  border: none;
-  width: 19px;
-  height: 19px;
-  border-radius: 2px;
-  cursor: pointer;
-  margin-left: 1px;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.16s;
-}
-.min-btn:hover, .max-btn:hover {
-  background: #738acb;
-}
-.close-btn {
-  background: #d9534f;
-}
-.close-btn:hover {
-  background: #b91e1a;
+.window.minimized {
+  display: none;
 }
 
 .window.maximized {
+  border-radius: 0;
+  border: none;
+  outline: none;
+  width: 100% !important;
+  height: calc(100% - 40px) !important;
   top: 0 !important;
   left: 0 !important;
-  width: 100vw !important;
-  height: calc(100vh - 38px) !important;
-  border-radius: 0 0 4px 4px !important;
-}
-.window.minimized {
-  display: none !important;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  .window {
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90vw;
-    height: auto;
-    min-height: 300px;
-  }
-
-  .window-body {
-    font-size: 13px;
-    padding: 10px;
-  }
-
-  .window-header {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  .close-btn {
-    width: 18px;
-    height: 18px;
-    font-size: 12px;
-  }
+/* Aero Snap — half-screen */
+.window.snapped-left {
+  width: 50vw !important;
+  height: calc(100vh - 40px) !important;
 }
 
-/* Extra small screens */
-@media (max-width: 480px) {
-  .window {
-    width: 95vw;
-    height: auto;
-    min-height: 260px;
-  }
+.window.snapped-right {
+  width: 50vw !important;
+  height: calc(100vh - 40px) !important;
+}
 
-  .window-body {
-    font-size: 12px;
-  }
+/* Aero top gloss highlight */
+.window-glass-highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  pointer-events: none;
+  border-radius: 8px 8px 0 0;
+  z-index: 1;
+}
 
-  .window-header {
-    font-size: 13px;
-  }
+/* ── Title bar ── */
+.window-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 0 8px;
+  height: 30px;
+  flex-shrink: 0;
+  cursor: move;
+  user-select: none;
+
+  /* Aero header gradient */
+  background: linear-gradient(
+    to bottom,
+    rgba(180, 215, 255, 0.72) 0%,
+    rgba(130, 185, 250, 0.55) 50%,
+    rgba(100, 165, 245, 0.45) 100%
+  );
+  border-bottom: 1px solid rgba(80, 140, 220, 0.4);
+}
+
+.window-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.window-title-icon {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+.window-title {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #fff;
+  text-shadow:
+    0 1px 2px rgba(0, 40, 120, 0.8),
+    0 0 6px rgba(0, 60, 160, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Window controls ── */
+.window-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.win-btn {
+  width: 26px;
+  height: 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: filter 0.1s;
+
+  /* Glass button base */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(200, 225, 255, 0.3) 50%,
+    rgba(160, 200, 255, 0.2) 100%
+  );
+  border: 1px solid rgba(100, 160, 240, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.win-btn:hover {
+  filter: brightness(1.15);
+}
+
+.win-btn:active {
+  filter: brightness(0.9);
+  transform: translateY(1px);
+}
+
+/* Close button — red tint on hover */
+.close-btn:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 120, 100, 0.8) 0%,
+    rgba(200, 40, 20, 0.7) 100%
+  );
+  border-color: rgba(180, 30, 10, 0.7);
+  filter: none;
+}
+
+/* Icon shapes drawn in CSS */
+.win-btn-icon {
+  display: block;
+  position: relative;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
+}
+
+/* Minimize bar */
+.min-icon {
+  width: 10px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.9);
+  margin-top: 6px;
+  border-radius: 1px;
+}
+
+/* Maximize square */
+.max-icon {
+  width: 10px;
+  height: 9px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 1px;
+  background: transparent;
+}
+
+/* Restore (two overlapping squares) */
+.restore-icon {
+  width: 10px;
+  height: 9px;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 1px;
+  background: transparent;
+  position: relative;
+}
+.restore-icon::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 2px;
+  width: 8px;
+  height: 7px;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 1px;
+  background: rgba(130, 185, 250, 0.3);
+}
+
+/* Close X */
+.close-icon {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+.close-icon::before,
+.close-icon::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 1px;
+  top: 50%;
+  left: 0;
+}
+.close-icon::before { transform: translateY(-50%) rotate(45deg); }
+.close-icon::after  { transform: translateY(-50%) rotate(-45deg); }
+
+/* ── Window body ── */
+.window-body {
+  flex: 1;
+  overflow: auto;
+  background: rgba(240, 248, 255, 0.92);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 13px;
+  color: #222;
+  position: relative;
+  z-index: 2;
+
+  /* Inner border for realism */
+  border-top: 1px solid rgba(255, 255, 255, 0.7);
 }

@@ -1,44 +1,170 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./StartMenu.css";
 import userAvatar from "../assets/icons/mycomputer.png";
 
-const StartMenu = ({ onClose }) => {
-  const menuRef = useRef();
+const ALL_ITEMS = [
+  { label: "My Computer",        icon: "💻" },
+  { label: "Documents",          icon: "📄" },
+  { label: "Projects",           icon: "📁" },
+  { label: "Contact",            icon: "📬" },
+  { label: "Hobbies",            icon: "🎮" },
+  { label: "Media Player",       icon: "🎵" },
+  { label: "Notepad",            icon: "📝" },
+  { label: "Recycle Bin",        icon: "🗑️" },
+  { label: "Shoelify",           icon: "👟" },
+  { label: "Animator's Portfolio", icon: "🎨" },
+  { label: "XO Game",            icon: "❌" },
+  { label: "Sign Language",      icon: "🧠" },
+  { label: "Dabbewala",          icon: "🍱" },
+  { label: "IT Workspace",       icon: "💻" },
+];
+
+const StartMenu = ({ onClose, onOpenWindow, onShutdown }) => {
+  const menuRef  = useRef();
+  const inputRef = useRef();
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
-    const handleClick = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        onClose();
-      }
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) onClose();
     };
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener("mousedown", handler);
+    inputRef.current?.focus();
+    return () => document.removeEventListener("mousedown", handler);
   }, [onClose]);
 
+  const filtered = query.trim()
+    ? ALL_ITEMS.filter((i) => i.label.toLowerCase().includes(query.toLowerCase()))
+    : null;
+
+  const handleItem = (label) => {
+    onOpenWindow && onOpenWindow(label);
+    onClose();
+  };
+
+  const handleLink = (href) => {
+    window.open(href, "_blank", "noopener,noreferrer");
+    onClose();
+  };
+
   return (
-    <div className="start-menu" ref={menuRef}>
-      <div className="sm-profile">
-        <img src={userAvatar} alt="User" className="sm-avatar" />
-        <div className="sm-info">
-          <span className="sm-name">Piyush Bhalwalkar</span>
-          <span className="sm-role">Software Developer</span>
+    <div className="start-menu" ref={menuRef} role="menu">
+      {/* User strip */}
+      <div className="sm-user-strip">
+        <div className="sm-avatar-wrap">
+          <img src={userAvatar} alt="User avatar" className="sm-avatar" />
         </div>
+        <span className="sm-username">Piyush Bhalwalkar</span>
       </div>
-      <div className="sm-links">
-        <a href="https://piyushportfolio17.netlify.app/" className="sm-link">🏠 Portfolio</a>
-        <a href="https://github.com/piyush17011" target="_blank" rel="noreferrer" className="sm-link">🐙 GitHub</a>
-        <a href="https://www.linkedin.com/in/piyush-bhalwalkar17/" target="_blank" rel="noreferrer" className="sm-link">🔗 LinkedIn</a>
-        <a
-          href="https://mail.google.com/mail/?view=cm&fs=1&to=piyushbhalwalkar01@gmail.com"
-          target="_blank"
-          rel="noreferrer"
-          className="sm-link"
-        >
-          @ piyushbhalwalkar01@gmail.com
-        </a>
+
+      {/* Search results overlay */}
+      {filtered ? (
+        <div className="sm-search-results">
+          {filtered.length === 0 ? (
+            <div className="sm-no-results">No results for "{query}"</div>
+          ) : (
+            filtered.map((item) => (
+              <button key={item.label} className="sm-program-item" onClick={() => handleItem(item.label)}>
+                <div className="sm-prog-icon">{item.icon}</div>
+                <div className="sm-prog-info">
+                  <span className="sm-prog-name">{item.label}</span>
+                </div>
+              </button>
+            ))
+          )}
+        </div>
+      ) : (
+        /* Normal two-column body */
+        <div className="sm-body">
+          {/* Left: pinned programs */}
+          <div className="sm-left">
+            <div className="sm-section-label">Pinned</div>
+
+            <button className="sm-program-item" onClick={() => handleLink("https://piyushportfolio17.netlify.app/")}>
+              <div className="sm-prog-icon">🌐</div>
+              <div className="sm-prog-info">
+                <span className="sm-prog-name">Portfolio</span>
+                <span className="sm-prog-desc">piyushportfolio17.netlify.app</span>
+              </div>
+            </button>
+
+            <button className="sm-program-item" onClick={() => handleLink("https://github.com/piyush17011")}>
+              <div className="sm-prog-icon">🐙</div>
+              <div className="sm-prog-info">
+                <span className="sm-prog-name">GitHub</span>
+                <span className="sm-prog-desc">piyush17011</span>
+              </div>
+            </button>
+
+            <button className="sm-program-item" onClick={() => handleLink("https://www.linkedin.com/in/piyush-bhalwalkar17/")}>
+              <div className="sm-prog-icon">🔗</div>
+              <div className="sm-prog-info">
+                <span className="sm-prog-name">LinkedIn</span>
+                <span className="sm-prog-desc">piyush-bhalwalkar17</span>
+              </div>
+            </button>
+
+            <button className="sm-program-item" onClick={() => handleLink("https://mail.google.com/mail/?view=cm&fs=1&to=piyushbhalwalkar01@gmail.com")}>
+              <div className="sm-prog-icon">✉</div>
+              <div className="sm-prog-info">
+                <span className="sm-prog-name">Email Me</span>
+                <span className="sm-prog-desc">piyushbhalwalkar01@gmail.com</span>
+              </div>
+            </button>
+
+            <div className="sm-divider" />
+            <div className="sm-all-programs">All Programs <span className="sm-arrow">▶</span></div>
+          </div>
+
+          {/* Right: places */}
+          <div className="sm-right">
+            {[
+              ["📁", "Documents"],
+              ["📁", "Projects"],
+              ["📬", "Contact"],
+              ["🎮", "Hobbies"],
+              ["🎵", "Media Player"],
+              ["📝", "Notepad"],
+            ].map(([icon, label]) => (
+              <button key={label} className="sm-place-item" onClick={() => handleItem(label)}>
+                <span className="sm-place-icon">{icon}</span> {label}
+              </button>
+            ))}
+            <div className="sm-divider-right" />
+            <button className="sm-place-item" onClick={onClose}>
+              <span className="sm-place-icon">⚙️</span> Control Panel
+            </button>
+            <button className="sm-place-item" onClick={onClose}>
+              <span className="sm-place-icon">❓</span> Help and Support
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Search bar + shutdown footer */}
+      <div className="sm-footer">
+        <div className="sm-search-bar">
+          <span className="sm-search-icon">🔍</span>
+          <input
+            ref={inputRef}
+            className="sm-search-input"
+            type="text"
+            placeholder="Search programs and files"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && filtered && filtered.length > 0) {
+                handleItem(filtered[0].label);
+              }
+              if (e.key === "Escape") onClose();
+            }}
+          />
+        </div>
+        <button className="sm-shutdown-btn" onClick={() => { onClose(); onShutdown && onShutdown(); }} title="Shut Down">
+          <span className="sm-shutdown-icon">⏻</span>
+          <span>Shut Down</span>
+        </button>
       </div>
-      <div className="sm-divider"></div>
-      <button className="sm-shutdown" onClick={onClose}>⏻ Shut Down</button>
     </div>
   );
 };

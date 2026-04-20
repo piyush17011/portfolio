@@ -1,79 +1,278 @@
+/* ── StartMenu.css ── Windows 7 Aero Start Menu ── */
+
 .start-menu {
   position: fixed;
-  left: 10px;
-  bottom: 48px;
-  z-index: 101;
-  min-width: 280px;
-  background: #fdfdfd;
-  border-radius: 9px 9px 10px 10px;
-  box-shadow: 0 8px 24px rgba(20,30,80,0.18), 0 2px 5px #ddd;
-  padding: 15px 0 10px 0;
-  border: 1px solid #c9dae7;
-  font-family: "Segoe UI", sans-serif;
+  bottom: 40px;
+  left: 0;
+  width: 460px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+
+  /* Aero glass */
+  background: rgba(18, 45, 105, 0.88);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+
+  border: 1px solid rgba(100, 160, 255, 0.45);
+  border-bottom: none;
+
+  box-shadow:
+    4px -4px 24px rgba(0, 0, 0, 0.6),
+    0 -2px 8px rgba(0, 20, 80, 0.5),
+    inset 0 1px 0 rgba(160, 210, 255, 0.2);
+
+  animation: smSlideUp 0.18s ease-out;
 }
-.sm-profile {
+
+@keyframes smSlideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── User strip ── */
+.sm-user-strip {
   display: flex;
   align-items: center;
-  padding: 0 18px 8px 18px;
+  gap: 12px;
+  padding: 12px 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 80, 180, 0.9) 0%,
+    rgba(10, 50, 140, 0.95) 100%
+  );
+  border-bottom: 1px solid rgba(80, 140, 220, 0.4);
 }
+
+.sm-avatar-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid rgba(160, 210, 255, 0.5);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
 .sm-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  margin-right: 13px;
-  background: #e7e7e7;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-.sm-info {
-  display: flex;
-  flex-direction: column;
-}
-.sm-name {
+
+.sm-username {
   font-size: 15px;
   font-weight: 600;
-  color: #23448c;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  letter-spacing: 0.01em;
 }
-.sm-role {
-  font-size: 13px;
-  color: #5372bc;
+
+/* ── Two-column body ── */
+.sm-body {
+  display: flex;
+  flex: 1;
+  min-height: 320px;
 }
-.sm-links {
-  margin: 12px 0 8px 0;
+
+/* Left panel */
+.sm-left {
+  flex: 1;
+  background: rgba(240, 248, 255, 0.95);
+  padding: 8px 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  border-right: 1px solid rgba(100, 150, 220, 0.2);
 }
-.sm-link {
-  padding: 8px 24px;
-  font-size: 15px;
-  color: #19498c;
-  text-decoration: none;
+
+.sm-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #555;
+  text-transform: none;
+  letter-spacing: 0.03em;
+  padding: 4px 14px 2px;
+}
+
+.sm-program-item {
   display: flex;
   align-items: center;
-  border-radius: 5px;
-  transition: background 0.16s;
-}
-.sm-link:hover {
-  background: #e8eefc;
-  color: #195ded;
-}
-.sm-divider {
-  border-bottom: 1px solid #c3d5ec;
-  margin: 6px 8px 9px 8px;
-}
-.sm-shutdown {
-  width: 90%;
-  margin: 5px auto 0 auto;
-  display: block;
-  padding: 7px 0;
-  font-size: 15px;
-  background: linear-gradient(90deg, #ed4747 0%, #ad1717 100%);
-  color: #fff;
+  gap: 10px;
+  padding: 6px 14px;
   border: none;
-  border-radius: 5px;
-  font-weight: 600;
+  background: transparent;
   cursor: pointer;
-  transition: background 0.18s;
+  text-align: left;
+  width: 100%;
+  transition: background 0.1s;
+  border-radius: 0;
 }
-.sm-shutdown:hover {
-  background: linear-gradient(90deg, #ad1717 0%, #ed4747 100%);
+
+.sm-program-item:hover {
+  background: linear-gradient(
+    to right,
+    rgba(50, 120, 220, 0.18),
+    rgba(50, 120, 220, 0.08)
+  );
+}
+
+.sm-prog-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.sm-prog-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sm-prog-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sm-prog-desc {
+  font-size: 11px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sm-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 6px 10px;
+}
+
+.sm-all-programs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  margin-top: auto;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+.sm-all-programs:hover {
+  background: rgba(50, 120, 220, 0.12);
+}
+
+.sm-arrow {
+  font-size: 10px;
+  color: #555;
+}
+
+/* Right panel */
+.sm-right {
+  width: 180px;
+  background: rgba(22, 60, 140, 0.82);
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sm-place-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  transition: background 0.1s;
+}
+
+.sm-place-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.sm-place-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.sm-divider-right {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 6px 10px;
+}
+
+/* ── Footer / shutdown bar ── */
+.sm-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 6px 8px;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 40, 110, 0.9) 0%,
+    rgba(5, 25, 75, 0.95) 100%
+  );
+  border-top: 1px solid rgba(80, 140, 220, 0.3);
+}
+
+.sm-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sm-shutdown-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(100, 160, 255, 0.35);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  color: rgba(255, 255, 255, 0.9);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.1s;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.sm-shutdown-btn:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 100, 80, 0.5) 0%,
+    rgba(200, 40, 20, 0.4) 100%
+  );
+  border-color: rgba(220, 80, 60, 0.6);
+}
+
+.sm-shutdown-icon {
+  font-size: 14px;
 }

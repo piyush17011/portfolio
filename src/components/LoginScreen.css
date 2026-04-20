@@ -1,0 +1,221 @@
+/* ── LoginScreen.css ── */
+
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  z-index: 99999;
+  animation: bootFadeIn 0.6s ease;
+}
+
+@keyframes bootFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.login-fade-out {
+  animation: loginFadeOut 1.8s ease forwards;
+}
+
+@keyframes loginFadeOut {
+  0%   { opacity: 1; }
+  60%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Windows logo */
+.boot-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.boot-win-logo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  width: 64px;
+  height: 64px;
+}
+
+.bw-r {
+  border-radius: 3px;
+  display: block;
+}
+.bw-tl { background: #f25022; }
+.bw-tr { background: #7fba00; }
+.bw-bl { background: #00a4ef; }
+.bw-br { background: #ffb900; }
+
+.boot-wordmark {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 28px;
+  font-weight: 200;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.boot-wordmark span {
+  color: #4ea6dc;
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+/* Win7 circle spinner */
+.boot-spinner {
+  display: flex;
+  gap: 6px;
+}
+
+.boot-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #4ea6dc;
+  animation: bootDot 1s ease-in-out infinite alternate;
+}
+
+@keyframes bootDot {
+  from { opacity: 0.2; transform: scale(0.7); }
+  to   { opacity: 1;   transform: scale(1); }
+}
+
+.boot-copy {
+  position: absolute;
+  bottom: 24px;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+}
+
+.welcome-text {
+  font-family: "Segoe UI Light", "Segoe UI", Tahoma, sans-serif;
+  font-size: 36px;
+  font-weight: 200;
+  color: #fff;
+  letter-spacing: 4px;
+}
+
+/* ── Login screen ── */
+.login-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #0a1628 0%, #0d2a5c 40%, #1a4a8a 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  animation: bootFadeIn 0.5s ease;
+}
+
+.login-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(60,120,220,0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.login-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 1;
+}
+
+.login-avatar-wrap {
+  width: 100px;
+  height: 100px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 3px solid rgba(160, 210, 255, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(80,160,255,0.3),
+    0 8px 32px rgba(0,0,0,0.5);
+  margin-bottom: 4px;
+}
+
+.login-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.login-name {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 22px;
+  font-weight: 300;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  letter-spacing: 0.5px;
+}
+
+.login-role {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 13px;
+  color: rgba(180,210,255,0.8);
+  margin-bottom: 8px;
+}
+
+.login-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 24px;
+  border-radius: 4px;
+  border: 1px solid rgba(100,160,255,0.5);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.2) 0%,
+    rgba(100,160,255,0.25) 50%,
+    rgba(60,120,220,0.2) 100%
+  );
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 8px rgba(0,0,0,0.3);
+  transition: all 0.15s;
+  margin-top: 4px;
+}
+
+.login-btn:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.3) 0%,
+    rgba(120,180,255,0.35) 100%
+  );
+  border-color: rgba(140,200,255,0.7);
+}
+
+.login-arrow {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.login-footer {
+  position: absolute;
+  bottom: 28px;
+  display: flex;
+  gap: 32px;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 12px;
+  color: rgba(200,225,255,0.7);
+}
+
+.login-footer span {
+  cursor: pointer;
+  transition: color 0.1s;
+}
+
+.login-footer span:hover {
+  color: #fff;
+}

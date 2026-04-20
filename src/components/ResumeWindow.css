@@ -1,38 +1,97 @@
+/* ── ResumeWindow.css ── Windows 7 Style Resume Viewer ── */
+
 .resume-window {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background: #f0f0f0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* Toolbar strip at top */
+.resume-window::before {
+  content: "";
+  display: block;
+  height: 4px;
+  background: linear-gradient(
+    to bottom,
+    rgba(220, 230, 245, 1) 0%,
+    rgba(200, 215, 235, 1) 100%
+  );
+  border-bottom: 1px solid rgba(150, 180, 220, 0.4);
+  flex-shrink: 0;
 }
 
 .resume-frame {
   flex: 1;
+  width: 100%;
   border: none;
-  border-radius: 6px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
-  background: #1a1a1a;
+  background: #fff;
+  display: block;
+  min-height: 0;
 }
 
 .resume-actions {
-  margin-top: 0.5rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  font-size: 0.9rem;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: linear-gradient(
+    to bottom,
+    rgba(220, 232, 248, 1) 0%,
+    rgba(200, 218, 242, 1) 100%
+  );
+  border-top: 1px solid rgba(150, 185, 225, 0.5);
+  flex-shrink: 0;
+}
+
+.resume-actions p {
+  margin: 0;
+  font-size: 12px;
+  color: #444;
 }
 
 .resume-actions button {
-  border: none;
-  border-radius: 4px;
-  background: linear-gradient(180deg, #f0f0f0, #dcdcdc);
+  padding: 4px 14px;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 12px;
   color: #111;
-  padding: 0.35rem 0.75rem;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border-radius: 3px;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(240, 247, 255, 1) 0%,
+    rgba(210, 228, 248, 1) 45%,
+    rgba(190, 215, 245, 1) 50%,
+    rgba(200, 222, 248, 1) 100%
+  );
+
+  border: 1px solid rgba(112, 152, 200, 0.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+
+  transition: all 0.1s;
 }
 
 .resume-actions button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(225, 240, 255, 1) 45%,
+    rgba(205, 228, 252, 1) 50%,
+    rgba(215, 234, 252, 1) 100%
+  );
+  border-color: rgba(80, 130, 190, 0.9);
 }
 
+.resume-actions button:active {
+  background: linear-gradient(
+    to bottom,
+    rgba(190, 215, 245, 1) 0%,
+    rgba(210, 228, 248, 1) 100%
+  );
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  transform: translateY(1px);
+}

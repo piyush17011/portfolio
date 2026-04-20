@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./App.css";
 import DesktopIcon from "./components/DesktopIcon";
 import Window from "./components/Window";
 import Taskbar from "./components/Taskbar";
+import LoginScreen from "./components/LoginScreen";
+import ContextMenu from "./components/ContextMenu";
+import { NotificationContainer } from "./components/Notification";
+import ScreenSaver, { useScreenSaver } from "./components/ScreenSaver";
+import ClockGadget from "./components/ClockGadget";
+import Notepad from "./components/Notepad";
 
 import win7Wallpaper from "./assets/wallpapers/win7.png";
 import mycomputer from "./assets/icons/mycomputer.png";
@@ -13,159 +19,480 @@ import contact from "./assets/icons/contact.png";
 import hobby from "./assets/icons/hobby.png";
 import mediaplayer from "./assets/icons/mediaplayer.png";
 
-function App() {
-  const [openWindows, setOpenWindows] = useState([]); // array instead of single
+// ── Wallpapers ── add more image imports and push to this array ──────────────
+const WALLPAPERS = [win7Wallpaper];
 
-  const handleIconClick = (app) => {
-    if (!openWindows.includes(app)) {
-      setOpenWindows([...openWindows, app]);
+// ── Projects ─────────────────────────────────────────────────────────────────
+const PROJECTS = [
+  {
+    id: "shoelify",
+    label: "Shoelify",
+    emoji: "👟",
+    tagline: "Ecommerce platform for sneaker heads",
+    description: "A full-stack ecommerce website built for sneaker enthusiasts. Features product listings, cart management, user authentication, and an admin dashboard.",
+    tech: ["React", "Node.js", "MongoDB", "Express", "Stripe"],
+    liveUrl: "https://shoelify-demo.netlify.app",
+    githubUrl: "https://github.com/piyush17011/shoelify",
+  },
+  {
+    id: "animator-portfolio",
+    label: "Animator's Portfolio",
+    emoji: "🎨",
+    tagline: "Portfolio site for a motion graphics artist",
+    description: "A visually rich portfolio website for an animator, featuring smooth scroll animations, video reels, and a project gallery with lightbox previews.",
+    tech: ["HTML", "CSS", "JavaScript", "GSAP"],
+    liveUrl: "https://animators-portfolio-demo.netlify.app",
+    githubUrl: "https://github.com/piyush17011/animators-portfolio",
+  },
+  {
+    id: "xo-game",
+    label: "XO Game",
+    emoji: "❌",
+    tagline: "Classic Tic-Tac-Toe with a modern twist",
+    description: "A Tic-Tac-Toe game with two-player mode, score tracking, win detection animations, and an optional AI opponent using the minimax algorithm.",
+    tech: ["React", "CSS Animations"],
+    liveUrl: "https://xo-game-demo.netlify.app",
+    githubUrl: "https://github.com/piyush17011/xo-game",
+  },
+  {
+    id: "sign-language",
+    label: "Sign Language",
+    emoji: "🧠",
+    tagline: "Real-time sign language recognition",
+    description: "A machine learning project that recognizes hand gestures for sign language in real time using a webcam feed, trained on a custom dataset with TensorFlow.",
+    tech: ["Python", "TensorFlow", "OpenCV", "MediaPipe"],
+    liveUrl: null,
+    githubUrl: "https://github.com/piyush17011/sign-language",
+  },
+  {
+    id: "dabbewala",
+    label: "Dabbewala",
+    emoji: "🍱",
+    tagline: "Mumbai Dabbewala management system",
+    description: "A digital management system inspired by Mumbai's iconic dabbewala network. Handles route optimization, order tracking, and delivery assignments.",
+    tech: ["React", "Node.js", "MySQL", "Google Maps API"],
+    liveUrl: "https://dabbewala-demo.netlify.app",
+    githubUrl: "https://github.com/piyush17011/dabbewala",
+  },
+  {
+    id: "it-workspace",
+    label: "IT Workspace",
+    emoji: "💻",
+    tagline: "Task scheduling platform for IT teams",
+    description: "A collaborative task scheduling and tracking platform for IT departments, with drag-and-drop kanban boards, role-based access, and deadline alerts.",
+    tech: ["React", "Firebase", "Tailwind CSS"],
+    liveUrl: "https://it-workspace-demo.netlify.app",
+    githubUrl: "https://github.com/piyush17011/it-workspace",
+  },
+];
+
+const ICON_MAP = {
+  "My Computer": mycomputer,
+  "Recycle Bin": recyclebin,
+  Documents: documents,
+  Projects: projects,
+  Contact: contact,
+  Hobbies: hobby,
+  "Media Player": mediaplayer,
+  Notepad: documents,
+};
+
+// ── Shutdown screen ───────────────────────────────────────────────────────────
+const ShutdownScreen = ({ onRestart }) => {
+  const [phase, setPhase] = useState("saving"); // saving → goodbye → black → restart
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase("goodbye"), 2000);
+    const t2 = setTimeout(() => setPhase("black"),   4000);
+    const t3 = setTimeout(() => onRestart && onRestart(), 6000); // 2s black → restart
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [onRestart]);
+
+  return (
+    <div className={`shutdown-screen ${phase}`}>
+      {phase === "saving" && (
+        <>
+          <div className="shutdown-spinner">
+            {[0,1,2,3,4].map(i => (
+              <div key={i} className="boot-dot" style={{ animationDelay: `${i * 0.15}s`, background: "#4ea6dc" }} />
+            ))}
+          </div>
+          <div className="shutdown-msg">Saving your settings…</div>
+        </>
+      )}
+      {phase === "goodbye" && (
+        <div className="shutdown-goodbye">
+          <div className="shutdown-win-logo">
+            <span style={{ background: "#f25022" }} />
+            <span style={{ background: "#7fba00" }} />
+            <span style={{ background: "#00a4ef" }} />
+            <span style={{ background: "#ffb900" }} />
+          </div>
+          <div className="shutdown-msg">Windows is shutting down…</div>
+        </div>
+      )}
+      {/* black phase renders nothing — just the dark background */}
+    </div>
+  );
+};
+
+const WIN_W = 700;
+const WIN_H = 460;
+const TASKBAR_H = 40;
+let notifId = 0;
+
+function App() {
+  const desktopRef = useRef(null);
+
+  const [loggedIn, setLoggedIn]           = useState(false);
+  const [shuttingDown, setShuttingDown]   = useState(false);
+  const { active: ssActive, wake: ssWake } = useScreenSaver();
+
+  const [openWindows, setOpenWindows]     = useState([]);
+  const [minimized, setMinimized]         = useState([]);
+  const [maximized, setMaximized]         = useState([]);
+  const [snapSide, setSnapSide]           = useState({});
+  const [positions, setPositions]         = useState({});
+  const [zOrders, setZOrders]             = useState({});
+  const [topZ, setTopZ]                   = useState(10);
+  const [activeWindow, setActiveWindow]   = useState(null);
+  const [projectTabs, setProjectTabs]     = useState({});
+  const [snapPreview, setSnapPreview]     = useState(null);
+
+  const [ctxMenu, setCtxMenu]             = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  const [wallpaperIdx, setWallpaperIdx]   = useState(0);
+  const [showClock, setShowClock]         = useState(true);
+
+  const pushNotif = useCallback((title, message, icon = "ℹ️") => {
+    const id = ++notifId;
+    setNotifications((p) => [...p, { id, title, message, icon }]);
+  }, []);
+
+  const dismissNotif = useCallback((id) => {
+    setNotifications((p) => p.filter((n) => n.id !== id));
+  }, []);
+
+  useEffect(() => {
+    if (loggedIn) {
+      setTimeout(() => pushNotif("Welcome!", "Double-click any icon to open it. Right-click desktop for options.", "👋"), 1200);
     }
+  }, [loggedIn, pushNotif]);
+
+  const getCenteredPosition = () => {
+    const el = desktopRef.current;
+    const dw = el ? el.clientWidth  : window.innerWidth;
+    const dh = el ? el.clientHeight : window.innerHeight;
+    return {
+      x: Math.max(0, Math.floor((dw - WIN_W) / 2)),
+      y: Math.max(0, Math.floor(((dh - TASKBAR_H) - WIN_H) / 2)),
+    };
+  };
+
+  const bringToFront = (title) => {
+    setTopZ((z) => {
+      const nz = z + 1;
+      setZOrders((prev) => ({ ...prev, [title]: nz }));
+      return nz;
+    });
+    setActiveWindow(title);
+  };
+
+  const handleOpen = (app) => {
+    if (!openWindows.includes(app)) {
+      setOpenWindows((prev) => [...prev, app]);
+      setPositions((prev) => ({ ...prev, [app]: prev[app] || getCenteredPosition() }));
+    } else if (minimized.includes(app)) {
+      setMinimized((prev) => prev.filter((w) => w !== app));
+    }
+    bringToFront(app);
   };
 
   const handleClose = (app) => {
-    setOpenWindows(openWindows.filter((win) => win !== app));
+    setOpenWindows((p) => p.filter((w) => w !== app));
+    setMinimized((p) => p.filter((w) => w !== app));
+    setMaximized((p) => p.filter((w) => w !== app));
+    setSnapSide((p) => { const n = { ...p }; delete n[app]; return n; });
+    if (activeWindow === app) setActiveWindow(null);
   };
 
+  const handleMinimize = (app) =>
+    setMinimized((p) => p.includes(app) ? p.filter((w) => w !== app) : [...p, app]);
+
+  const handleMaximize = (app) =>
+    setMaximized((p) => p.includes(app) ? p.filter((w) => w !== app) : [...p, app]);
+
+  // Aero Snap
+  const handleDrag = (title, data) => {
+    setPositions((p) => ({ ...p, [title]: { x: data.x, y: data.y } }));
+    const edge = 20;
+    if (data.x <= edge) setSnapPreview("left");
+    else if (data.x + WIN_W >= window.innerWidth - edge) setSnapPreview("right");
+    else setSnapPreview(null);
+  };
+
+  const handleDragStop = (title, data) => {
+    const edge = 20;
+    const dw = desktopRef.current ? desktopRef.current.clientWidth : window.innerWidth;
+    if (data.x <= edge) {
+      setPositions((p) => ({ ...p, [title]: { x: 0, y: 0 } }));
+      setSnapSide((p) => ({ ...p, [title]: "left" }));
+    } else if (data.x + WIN_W >= dw - edge) {
+      setPositions((p) => ({ ...p, [title]: { x: Math.floor(dw / 2), y: 0 } }));
+      setSnapSide((p) => ({ ...p, [title]: "right" }));
+    } else {
+      setSnapSide((p) => ({ ...p, [title]: null }));
+      setPositions((p) => ({ ...p, [title]: { x: data.x, y: data.y } }));
+    }
+    setSnapPreview(null);
+  };
+
+  if (!loggedIn) return <LoginScreen onLogin={() => setLoggedIn(true)} />;
+
+  const handleRestart = () => {
+    setShuttingDown(false);
+    setLoggedIn(false);
+    setOpenWindows([]);
+    setMinimized([]);
+    setMaximized([]);
+    setSnapSide({});
+    setPositions({});
+    setZOrders({});
+    setTopZ(10);
+    setActiveWindow(null);
+    setProjectTabs({});
+    setSnapPreview(null);
+    setCtxMenu(null);
+    setNotifications([]);
+  };
+
+  if (shuttingDown) return <ShutdownScreen onRestart={handleRestart} />;
+
+  const taskbarWindows = openWindows.map((title) => ({
+    title,
+    icon: ICON_MAP[title] || null,
+    isMinimized: minimized.includes(title),
+  }));
+
   return (
-    
-      <div
-        className="desktop"
-        style={{ backgroundImage: `url(${win7Wallpaper})` }}
-      >
-        {/* Desktop Icons */}
-        <div className="icons-container">
-          <DesktopIcon
-            icon={mycomputer}
-            label="My Computer"
-            onClick={() => handleIconClick("My Computer")}
-          />
-          {/* <DesktopIcon
-            icon={documents}
-            label="Documents"
-            onClick={() => handleIconClick("Documents")}
-          />
-          <DesktopIcon
-            icon={projects}
-            label="Projects"
-            onClick={() => handleIconClick("Projects")}
-          />
-          <DesktopIcon
-            icon={contact}
-            label="Contact"
-            onClick={() => handleIconClick("Contact")}
-          /> */}
-          <DesktopIcon
-            icon={recyclebin}
-            label="Recycle Bin"
-            onClick={() => handleIconClick("Recycle Bin")}
-          />
-        </div>
+    <div
+      ref={desktopRef}
+      className="desktop"
+      style={{ backgroundImage: `url(${WALLPAPERS[wallpaperIdx]})` }}
+      onContextMenu={(e) => { e.preventDefault(); setCtxMenu({ x: e.clientX, y: e.clientY }); }}
+      onClick={() => ctxMenu && setCtxMenu(null)}
+    >
+      {/* Screensaver */}
+      {ssActive && <ScreenSaver onWake={ssWake} />}
 
-        {/* Windows Section */}
-        {openWindows.map((window) => (
-          <Window key={window} title={window} onClose={() => handleClose(window)}>
-            {window === "My Computer" && (
-  <div className="window-content">
-    <h3>My Computer</h3>
-    <p>Explore different sections of my portfolio:</p>
-    <div className="inner-icons">
-      <DesktopIcon
-        icon={documents}
-        label="Documents"
-        onClick={() => handleIconClick("Documents")}
-      />
-      <DesktopIcon
-        icon={projects}
-        label="Projects"
-        onClick={() => handleIconClick("Projects")}
-      />
-      <DesktopIcon
-        icon={contact}
-        label="Contact"
-        onClick={() => handleIconClick("Contact")}
-      />
-      <DesktopIcon
-        icon={hobby}
-        label="Hobbies"
-        onClick={() => handleIconClick("Hobbies")}
-      />
-      <DesktopIcon
-  icon={mediaplayer}
-  label="Media Player"
-  onClick={() => handleIconClick("Media Player")}
-/>
+      {/* Clock gadget */}
+      {showClock && <ClockGadget />}
 
+      {/* Snap ghost preview */}
+      {snapPreview && <div className={`snap-preview snap-${snapPreview}`} />}
 
+      {/* Desktop icons */}
+      <div className="icons-container">
+        <DesktopIcon icon={mycomputer}  label="My Computer"  onClick={() => handleOpen("My Computer")} />
+        <DesktopIcon icon={recyclebin}  label="Recycle Bin"  onClick={() => handleOpen("Recycle Bin")} />
+        <DesktopIcon icon={documents}   label="Documents"    onClick={() => handleOpen("Documents")} />
+        <DesktopIcon icon={projects}    label="Projects"     onClick={() => handleOpen("Projects")} />
+        <DesktopIcon icon={contact}     label="Contact"      onClick={() => handleOpen("Contact")} />
+        <DesktopIcon icon={hobby}       label="Hobbies"      onClick={() => handleOpen("Hobbies")} />
+        <DesktopIcon icon={mediaplayer} label="Media Player" onClick={() => handleOpen("Media Player")} />
+        <DesktopIcon icon={documents}   label="Notepad"      onClick={() => handleOpen("Notepad")} />
+      </div>
 
-    </div>
-  </div>
-)}
-            
-            {window === "Documents" && (
-              <div>
-                <h3>Education</h3>
-                <p>B.Tech (Information Technology), Mumbai University : 9.3 CGPA</p>
-                <p>Key Courses: Web Development, Cloud Computing, OOP</p>
+      {/* Windows */}
+      {openWindows.map((win) => {
+        const project = PROJECTS.find((p) => p.label === win);
+        const snapped = snapSide[win];
+        return (
+          <Window
+            key={win}
+            title={win}
+            icon={ICON_MAP[win] || null}
+            onClose={() => handleClose(win)}
+            onMinimize={() => handleMinimize(win)}
+            onMaximize={() => handleMaximize(win)}
+            isMinimized={minimized.includes(win)}
+            isMaximized={maximized.includes(win)}
+            isSnapped={snapped}
+            position={positions[win] || getCenteredPosition()}
+            onDrag={handleDrag}
+            onDragStop={handleDragStop}
+            zIndex={zOrders[win] || 10}
+            onFocus={() => bringToFront(win)}
+          >
+            {win === "My Computer" && (
+              <div className="window-content">
+                <div className="explorer-toolbar">
+                  <span className="explorer-path">📂 My Computer</span>
+                </div>
+                <div className="inner-icons">
+                  <DesktopIcon icon={documents}   label="Documents"    onClick={() => handleOpen("Documents")} />
+                  <DesktopIcon icon={projects}    label="Projects"     onClick={() => handleOpen("Projects")} />
+                  <DesktopIcon icon={contact}     label="Contact"      onClick={() => handleOpen("Contact")} />
+                  <DesktopIcon icon={hobby}       label="Hobbies"      onClick={() => handleOpen("Hobbies")} />
+                  <DesktopIcon icon={mediaplayer} label="Media Player" onClick={() => handleOpen("Media Player")} />
+                  <DesktopIcon icon={documents}   label="Notepad"      onClick={() => handleOpen("Notepad")} />
+                </div>
               </div>
             )}
-            {window === "Media Player" && (
-  <div className="media-player">
-    <h3>Windows Media Player</h3>
-    <audio controls autoPlay loop>
-      <source src="/assets/music/audio.mp3" type="audio/mp3" />
-      Your browser does not support the audio element.
-    </audio>
-    <p>Now Playing: Windows 7 Startup Theme 🎶</p>
-  </div>
-)}
 
-            {window === "Projects" && (
-              <div>
-                <h3>Projects</h3>
+            {win === "Projects" && (
+              <div className="window-content">
+                <div className="explorer-toolbar">
+                  <span className="explorer-path">📂 My Computer › Projects</span>
+                </div>
+                <div className="inner-icons">
+                  {PROJECTS.map((p) => (
+                    <DesktopIcon key={p.id} icon={projects} label={p.label} onClick={() => handleOpen(p.label)} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {project && (
+              <div className="project-window">
+                <div className="project-tabs">
+                  <button className={`proj-tab${(projectTabs[project.id] || "info") === "info" ? " active" : ""}`}
+                    onClick={() => setProjectTabs((p) => ({ ...p, [project.id]: "info" }))}>📄 Info</button>
+                  {project.liveUrl && (
+                    <button className={`proj-tab${projectTabs[project.id] === "preview" ? " active" : ""}`}
+                      onClick={() => setProjectTabs((p) => ({ ...p, [project.id]: "preview" }))}>🌐 Live Preview</button>
+                  )}
+                </div>
+                {(projectTabs[project.id] || "info") === "info" && (
+                  <div className="project-info">
+                    <div className="project-header">
+                      <span className="project-emoji">{project.emoji}</span>
+                      <div>
+                        <h2 className="project-title">{project.label}</h2>
+                        <p className="project-tagline">{project.tagline}</p>
+                      </div>
+                    </div>
+                    <div className="project-desc">{project.description}</div>
+                    <div className="project-tech-label">Tech Stack</div>
+                    <div className="project-tech">
+                      {project.tech.map((t) => <span key={t} className="tech-badge">{t}</span>)}
+                    </div>
+                    <div className="project-links">
+                      {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noreferrer" className="proj-link-btn proj-link-live">🌐 View Live</a>}
+                      {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer" className="proj-link-btn proj-link-gh">🐙 GitHub Repo</a>}
+                      {!project.liveUrl && <span className="proj-no-live">⚠️ No live demo — desktop app</span>}
+                    </div>
+                  </div>
+                )}
+                {projectTabs[project.id] === "preview" && project.liveUrl && (
+                  <div className="project-preview">
+                    <div className="preview-bar">
+                      <span className="preview-url">{project.liveUrl}</span>
+                      <a href={project.liveUrl} target="_blank" rel="noreferrer" className="preview-open-btn">↗ Open</a>
+                    </div>
+                    <iframe src={project.liveUrl} title={`${project.label} preview`} className="project-iframe"
+                      sandbox="allow-scripts allow-same-origin allow-forms allow-popups" />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {win === "Notepad" && <Notepad />}
+
+            {win === "Documents" && (
+              <div className="win-pad">
+                <h3>📄 Education</h3>
+                <p><strong>B.Tech — Information Technology</strong><br />Mumbai University &nbsp;|&nbsp; CGPA: 9.3</p>
+                <hr />
+                <h4>Key Courses</h4>
                 <ul>
-                  <li>Shoelify - An Ecommerce Website for Sneaker Heads</li>
-                  <li>🍱 Animator's Portfolio</li>
-                  <li>💻 XO - Tic-Tac-Toe Game</li>
-                  <li>🧠 Sign Language Recognition</li>
-                  <li>🍱 Mumbai Dabbewala Management</li>
-                  <li>💻 IT Workspace – Task Scheduling Platform</li>
+                  <li>Web Development</li><li>Cloud Computing</li>
+                  <li>Object-Oriented Programming</li><li>Data Structures & Algorithms</li>
+                  <li>Database Management Systems</li>
                 </ul>
               </div>
             )}
 
-            {window === "Contact" && (
-              <div>
-                <h3>Contact</h3>
-                <p>Email: <a href="mailto:piyushbhalwalkar01@gmail.com">piyushbhalwalkar01@gmail.com</a></p>
-                <p>LinkedIn: <a href="https://linkedin.com/in/piyushbhalwalkar" target="_blank" rel="noreferrer">linkedin.com/in/piyushbhalwalkar</a></p>
-                <p>GitHub: <a href="https://github.com/piyush17011" target="_blank" rel="noreferrer">github.com/piyush17011</a></p>
+            {win === "Media Player" && (
+              <div className="media-player">
+                <div className="media-visualizer">
+                  {[...Array(20)].map((_, i) => <div key={i} className="media-bar" style={{ animationDelay: `${i * 0.07}s` }} />)}
+                </div>
+                <p className="media-title">🎵 Now Playing: Windows 7 Startup Theme</p>
+                <audio controls autoPlay loop style={{ width: "100%", marginTop: 8 }}>
+                  <source src="/assets/music/audio.mp3" type="audio/mp3" />
+                </audio>
               </div>
             )}
-            {window === "Hobbies" && (
-  <div className="hobbies-window">
-    <h3>Hobbies & Interests</h3>
-    <p>🎮 Gaming — In my free time, I enjoy playing multiplayer and story-driven games.</p>
 
-    <div className="game-icons">
-      <img src="/icons/valorant.png" alt="Valorant" />
-      <img src="/icons/gtaVC.png" alt="GTA VC" />
-      <img src="/icons/minecraft.png" alt="Minecraft" />
-    </div>
-  </div>
-)}
-            {window === "Recycle Bin" && (
-              <div>
-                <h3>Recycle Bin</h3>
-                <p>Nothing here yet!</p>
+            {win === "Contact" && (
+              <div className="win-pad">
+                <h3>📬 Contact Me</h3>
+                <table className="contact-table"><tbody>
+                  <tr><td>✉️ Email</td><td><a href="mailto:piyushbhalwalkar01@gmail.com">piyushbhalwalkar01@gmail.com</a></td></tr>
+                  <tr><td>🔗 LinkedIn</td><td><a href="https://linkedin.com/in/piyush-bhalwalkar17" target="_blank" rel="noreferrer">piyush-bhalwalkar17</a></td></tr>
+                  <tr><td>🐙 GitHub</td><td><a href="https://github.com/piyush17011" target="_blank" rel="noreferrer">piyush17011</a></td></tr>
+                  <tr><td>🌐 Portfolio</td><td><a href="https://piyushportfolio17.netlify.app" target="_blank" rel="noreferrer">piyushportfolio17.netlify.app</a></td></tr>
+                </tbody></table>
               </div>
             )}
-            
+
+            {win === "Hobbies" && (
+              <div className="win-pad hobbies-window">
+                <h3>🎮 Hobbies & Interests</h3>
+                <p>In my free time I enjoy playing multiplayer and story-driven games.</p>
+                <div className="game-icons">
+                  <img src="/icons/valorant.png" alt="Valorant" />
+                  <img src="/icons/gtaVC.png" alt="GTA VC" />
+                  <img src="/icons/minecraft.png" alt="Minecraft" />
+                </div>
+              </div>
+            )}
+
+            {win === "Recycle Bin" && (
+              <div className="win-pad" style={{ textAlign: "center", paddingTop: 40 }}>
+                <div style={{ fontSize: 64 }}>🗑️</div>
+                <p style={{ color: "#888", marginTop: 12 }}>Recycle Bin is empty.</p>
+              </div>
+            )}
           </Window>
-        ))}
+        );
+      })}
 
-        <Taskbar />
-      </div>
-    
+      {/* Taskbar */}
+      <Taskbar
+        openWindows={taskbarWindows}
+        activeWindow={activeWindow}
+        onOpenWindow={handleOpen}
+        onShutdown={() => setShuttingDown(true)}
+        onRestoreWindow={(title) => {
+          if (minimized.includes(title)) setMinimized((p) => p.filter((w) => w !== title));
+          bringToFront(title);
+        }}
+      />
+
+      {/* Context menu */}
+      {ctxMenu && (
+        <ContextMenu
+          x={ctxMenu.x}
+          y={ctxMenu.y}
+          onClose={() => setCtxMenu(null)}
+          onRefresh={() => pushNotif("Desktop", "Refreshed!", "🔄")}
+          onWallpaper={() => {
+            setWallpaperIdx((i) => (i + 1) % WALLPAPERS.length);
+            pushNotif("Personalize", "Wallpaper changed!", "🖼️");
+          }}
+          onGadgets={() => {
+            setShowClock((v) => !v);
+            pushNotif("Gadgets", showClock ? "Clock hidden." : "Clock gadget shown!", "🕐");
+          }}
+        />
+      )}
+
+      {/* Notifications */}
+      <NotificationContainer notifications={notifications} onDismiss={dismissNotif} />
+    </div>
   );
 }
 
+export default App;

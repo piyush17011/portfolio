@@ -1,0 +1,64 @@
+/* ── ScreenSaver.css ── */
+
+.screensaver {
+  position: fixed;
+  inset: 0;
+  z-index: 90000;
+  background: #000;
+  cursor: none;
+  outline: none;
+}
+
+.ss-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.ss-clock-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ss-clock {
+  text-align: center;
+  animation: ssFloat 6s ease-in-out infinite;
+}
+
+@keyframes ssFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-20px); }
+}
+
+.ss-time {
+  font-family: "Segoe UI Light", "Segoe UI", Tahoma, sans-serif;
+  font-size: 80px;
+  font-weight: 100;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 0 40px rgba(80,160,255,0.6), 0 2px 8px rgba(0,0,0,0.8);
+  letter-spacing: 4px;
+}
+
+.ss-date {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  color: rgba(180,210,255,0.7);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+
+.ss-hint {
+  position: absolute;
+  bottom: 32px;
+  width: 100%;
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.5px;
+}
