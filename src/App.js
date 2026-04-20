@@ -154,7 +154,7 @@ function App() {
   const [snapSide, setSnapSide]           = useState({});
   const [positions, setPositions]         = useState({});
   const [zOrders, setZOrders]             = useState({});
-  const [topZ, setTopZ]                   = useState(10);
+  const [, setTopZ]                   = useState(10);
   const [activeWindow, setActiveWindow]   = useState(null);
   const [projectTabs, setProjectTabs]     = useState({});
   const [snapPreview, setSnapPreview]     = useState(null);

@@ -4,7 +4,7 @@ import userAvatar from "../assets/icons/mycomputer.png";
 
 const LoginScreen = ({ onLogin }) => {
   const [phase, setPhase] = useState("boot"); // boot | login | logging-in
-  const [dots, setDots] = useState(0);
+  const [, setDots] = useState(0);
 
   // Boot phase: show spinner for 2.5s then go to login
   useEffect(() => {
