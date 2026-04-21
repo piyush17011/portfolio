@@ -44,7 +44,7 @@ const LoginScreen = ({ onLogin }) => {
             <div key={i} className="boot-dot" style={{ animationDelay: `${i * 0.15}s` }} />
           ))}
         </div>
-        <div className="boot-copy">© Microsoft Corporation. All rights reserved.</div>
+        <div className="boot-copy">© Piyush Bhalwalkar</div>
       </div>
     );
   }

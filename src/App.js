@@ -7,9 +7,10 @@ import LoginScreen from "./components/LoginScreen";
 import ContextMenu from "./components/ContextMenu";
 import { NotificationContainer } from "./components/Notification";
 import ScreenSaver, { useScreenSaver } from "./components/ScreenSaver";
-import ClockGadget from "./components/ClockGadget";
 import Notepad from "./components/Notepad";
-
+import CommandLine from "./components/CommandLine";
+import resumeicon from "./assets/icons/resume.png";
+import cmd from "./assets/icons/cmd.png";
 import win7Wallpaper from "./assets/wallpapers/win7.png";
 import mycomputer from "./assets/icons/mycomputer.png";
 import recyclebin from "./assets/icons/recyclebin.png";
@@ -18,71 +19,70 @@ import projects from "./assets/icons/projects.png";
 import contact from "./assets/icons/contact.png";
 import hobby from "./assets/icons/hobby.png";
 import mediaplayer from "./assets/icons/mediaplayer.png";
+import notepad from "./assets/icons/notepad.png";
 
-// ── Wallpapers ── add more image imports and push to this array ──────────────
 const WALLPAPERS = [win7Wallpaper];
 
-// ── Projects ─────────────────────────────────────────────────────────────────
 const PROJECTS = [
   {
     id: "shoelify",
     label: "Shoelify",
     emoji: "👟",
     tagline: "Ecommerce platform for sneaker heads",
-    description: "A full-stack ecommerce website built for sneaker enthusiasts. Features product listings, cart management, user authentication, and an admin dashboard.",
-    tech: ["React", "Node.js", "MongoDB", "Express", "Stripe"],
-    liveUrl: "https://shoelify-demo.netlify.app",
-    githubUrl: "https://github.com/piyush17011/shoelify",
+    description: "A full-stack ecommerce website built for sneaker enthusiasts. Features product listings, cart management, and user authentication.",
+    tech: ["React", "Node.js", "Express.js", "MongoDB"],
+    liveUrl: "https://shoelify.onrender.com/",
+    githubUrl: "https://github.com/piyush17011/SSHOPLIFY",
+  },
+  {
+    id: "xo",
+    label: "XO",
+    emoji: "❌",
+    tagline: "Live multiplayer TicTacToe",
+    description: "A live multiplayer TicTacToe game built to understand how WebSockets work.",
+    tech: ["Node.js", "Express.js", "WebSockets"],
+    liveUrl: "https://xo-ztjb.onrender.com/",
+    githubUrl: "https://github.com/piyush17011/XO",
+  },
+  {
+    id: "rtsld",
+    label: "RTSLD",
+    emoji: "🧠",
+    tagline: "Real Time Sign Language Detection System",
+    description: "A video calling platform for the deaf and mute, where users communicate using sign language with live AI-generated captions.",
+    tech: ["Node.js", "Express.js", "Python", "WebRTC", "WebSockets", "Machine Learning"],
+    liveUrl: "https://rtsld.onrender.com",
+    githubUrl: "https://github.com/piyush17011/RealTimeWorkingMain",
   },
   {
     id: "animator-portfolio",
     label: "Animator's Portfolio",
     emoji: "🎨",
-    tagline: "Portfolio site for a motion graphics artist",
-    description: "A visually rich portfolio website for an animator, featuring smooth scroll animations, video reels, and a project gallery with lightbox previews.",
-    tech: ["HTML", "CSS", "JavaScript", "GSAP"],
-    liveUrl: "https://animators-portfolio-demo.netlify.app",
-    githubUrl: "https://github.com/piyush17011/animators-portfolio",
+    tagline: "3D portfolio site built for a client",
+    description: "A portfolio website built for an animator client featuring 3D model rendering.",
+    tech: ["React.js", "3D Model Rendering"],
+    liveUrl: "https://omkar-bane.vercel.app/",
+    githubUrl: "https://github.com/piyush17011/animator-portfolio",
   },
   {
-    id: "xo-game",
-    label: "XO Game",
-    emoji: "❌",
-    tagline: "Classic Tic-Tac-Toe with a modern twist",
-    description: "A Tic-Tac-Toe game with two-player mode, score tracking, win detection animations, and an optional AI opponent using the minimax algorithm.",
-    tech: ["React", "CSS Animations"],
-    liveUrl: "https://xo-game-demo.netlify.app",
-    githubUrl: "https://github.com/piyush17011/xo-game",
-  },
-  {
-    id: "sign-language",
-    label: "Sign Language",
-    emoji: "🧠",
-    tagline: "Real-time sign language recognition",
-    description: "A machine learning project that recognizes hand gestures for sign language in real time using a webcam feed, trained on a custom dataset with TensorFlow.",
-    tech: ["Python", "TensorFlow", "OpenCV", "MediaPipe"],
+    id: "kisaan-saathi",
+    label: "Kisaan Saathi",
+    emoji: "🌾",
+    tagline: "AI assistant app for Indian farmers",
+    description: "An AI-assistant Android app for Indian farmers with weather API integration and live current market prices of crops.",
+    tech: ["React Native", "Python", "MySQL", "Gemini API"],
     liveUrl: null,
-    githubUrl: "https://github.com/piyush17011/sign-language",
+    githubUrl: "https://github.com/piyush17011/ks",
   },
   {
-    id: "dabbewala",
-    label: "Dabbewala",
-    emoji: "🍱",
-    tagline: "Mumbai Dabbewala management system",
-    description: "A digital management system inspired by Mumbai's iconic dabbewala network. Handles route optimization, order tracking, and delivery assignments.",
-    tech: ["React", "Node.js", "MySQL", "Google Maps API"],
-    liveUrl: "https://dabbewala-demo.netlify.app",
-    githubUrl: "https://github.com/piyush17011/dabbewala",
-  },
-  {
-    id: "it-workspace",
-    label: "IT Workspace",
-    emoji: "💻",
-    tagline: "Task scheduling platform for IT teams",
-    description: "A collaborative task scheduling and tracking platform for IT departments, with drag-and-drop kanban boards, role-based access, and deadline alerts.",
-    tech: ["React", "Firebase", "Tailwind CSS"],
-    liveUrl: "https://it-workspace-demo.netlify.app",
-    githubUrl: "https://github.com/piyush17011/it-workspace",
+    id: "npm-packages",
+    label: "NPM Packages",
+    emoji: "📦",
+    tagline: "CLI tools published on npm",
+    description: "Two npm packages: piyush17 — an interactive terminal portfolio, and piyushai — a context file generator for entire projects.",
+    tech: ["Node.js"],
+    liveUrl: null,
+    githubUrl: null,
   },
 ];
 
@@ -94,17 +94,18 @@ const ICON_MAP = {
   Contact: contact,
   Hobbies: hobby,
   "Media Player": mediaplayer,
-  Notepad: documents,
+  Notepad: notepad,
+  "Command Line": cmd,
+  Resume: resumeicon,
 };
 
-// ── Shutdown screen ───────────────────────────────────────────────────────────
 const ShutdownScreen = ({ onRestart }) => {
-  const [phase, setPhase] = useState("saving"); // saving → goodbye → black → restart
+  const [phase, setPhase] = useState("saving");
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase("goodbye"), 2000);
     const t2 = setTimeout(() => setPhase("black"),   4000);
-    const t3 = setTimeout(() => onRestart && onRestart(), 6000); // 2s black → restart
+    const t3 = setTimeout(() => onRestart && onRestart(), 6000);
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, [onRestart]);
 
@@ -131,7 +132,6 @@ const ShutdownScreen = ({ onRestart }) => {
           <div className="shutdown-msg">Windows is shutting down…</div>
         </div>
       )}
-      {/* black phase renders nothing — just the dark background */}
     </div>
   );
 };
@@ -154,15 +154,13 @@ function App() {
   const [snapSide, setSnapSide]           = useState({});
   const [positions, setPositions]         = useState({});
   const [zOrders, setZOrders]             = useState({});
-  const [, setTopZ]                   = useState(10);
+  const [, setTopZ]                       = useState(10);
   const [activeWindow, setActiveWindow]   = useState(null);
   const [projectTabs, setProjectTabs]     = useState({});
   const [snapPreview, setSnapPreview]     = useState(null);
-
   const [ctxMenu, setCtxMenu]             = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [wallpaperIdx, setWallpaperIdx]   = useState(0);
-  const [showClock, setShowClock]         = useState(true);
 
   const pushNotif = useCallback((title, message, icon = "ℹ️") => {
     const id = ++notifId;
@@ -201,7 +199,8 @@ function App() {
   const handleOpen = (app) => {
     if (!openWindows.includes(app)) {
       setOpenWindows((prev) => [...prev, app]);
-      setPositions((prev) => ({ ...prev, [app]: prev[app] || getCenteredPosition() }));
+      const pos = getCenteredPosition();
+      setPositions((prev) => ({ ...prev, [app]: prev[app] || pos }));
     } else if (minimized.includes(app)) {
       setMinimized((prev) => prev.filter((w) => w !== app));
     }
@@ -222,7 +221,6 @@ function App() {
   const handleMaximize = (app) =>
     setMaximized((p) => p.includes(app) ? p.filter((w) => w !== app) : [...p, app]);
 
-  // Aero Snap
   const handleDrag = (title, data) => {
     setPositions((p) => ({ ...p, [title]: { x: data.x, y: data.y } }));
     const edge = 20;
@@ -282,25 +280,22 @@ function App() {
       onContextMenu={(e) => { e.preventDefault(); setCtxMenu({ x: e.clientX, y: e.clientY }); }}
       onClick={() => ctxMenu && setCtxMenu(null)}
     >
-      {/* Screensaver */}
       {ssActive && <ScreenSaver onWake={ssWake} />}
-
-      {/* Clock gadget */}
-      {showClock && <ClockGadget />}
-
-      {/* Snap ghost preview */}
+    
       {snapPreview && <div className={`snap-preview snap-${snapPreview}`} />}
 
       {/* Desktop icons */}
       <div className="icons-container">
-        <DesktopIcon icon={mycomputer}  label="My Computer"  onClick={() => handleOpen("My Computer")} />
-        <DesktopIcon icon={recyclebin}  label="Recycle Bin"  onClick={() => handleOpen("Recycle Bin")} />
-        <DesktopIcon icon={documents}   label="Documents"    onClick={() => handleOpen("Documents")} />
-        <DesktopIcon icon={projects}    label="Projects"     onClick={() => handleOpen("Projects")} />
-        <DesktopIcon icon={contact}     label="Contact"      onClick={() => handleOpen("Contact")} />
-        <DesktopIcon icon={hobby}       label="Hobbies"      onClick={() => handleOpen("Hobbies")} />
-        <DesktopIcon icon={mediaplayer} label="Media Player" onClick={() => handleOpen("Media Player")} />
-        <DesktopIcon icon={documents}   label="Notepad"      onClick={() => handleOpen("Notepad")} />
+        <DesktopIcon icon={mycomputer}  label="My Computer"   onClick={() => handleOpen("My Computer")} />
+        <DesktopIcon icon={recyclebin}  label="Recycle Bin"   onClick={() => handleOpen("Recycle Bin")} />
+        <DesktopIcon icon={documents}   label="Documents"     onClick={() => handleOpen("Documents")} />
+        <DesktopIcon icon={projects}    label="Projects"      onClick={() => handleOpen("Projects")} />
+        <DesktopIcon icon={contact}     label="Contact"       onClick={() => handleOpen("Contact")} />
+        <DesktopIcon icon={hobby}       label="Hobbies"       onClick={() => handleOpen("Hobbies")} />
+        <DesktopIcon icon={mediaplayer} label="Media Player"  onClick={() => handleOpen("Media Player")} />
+        <DesktopIcon icon={notepad}     label="Notepad"       onClick={() => handleOpen("Notepad")} />
+        <DesktopIcon icon={resumeicon}  label="Resume"        onClick={() => handleOpen("Resume")} />
+        <DesktopIcon icon={cmd}         label="Command Line"  onClick={() => handleOpen("Command Line")} />
       </div>
 
       {/* Windows */}
@@ -335,7 +330,9 @@ function App() {
                   <DesktopIcon icon={contact}     label="Contact"      onClick={() => handleOpen("Contact")} />
                   <DesktopIcon icon={hobby}       label="Hobbies"      onClick={() => handleOpen("Hobbies")} />
                   <DesktopIcon icon={mediaplayer} label="Media Player" onClick={() => handleOpen("Media Player")} />
-                  <DesktopIcon icon={documents}   label="Notepad"      onClick={() => handleOpen("Notepad")} />
+                  <DesktopIcon icon={notepad}     label="Notepad"      onClick={() => handleOpen("Notepad")} />
+                  <DesktopIcon icon={resumeicon}  label="Resume"       onClick={() => handleOpen("Resume")} />
+                  <DesktopIcon icon={cmd}         label="Command Line" onClick={() => handleOpen("Command Line")} />
                 </div>
               </div>
             )}
@@ -356,11 +353,19 @@ function App() {
             {project && (
               <div className="project-window">
                 <div className="project-tabs">
-                  <button className={`proj-tab${(projectTabs[project.id] || "info") === "info" ? " active" : ""}`}
-                    onClick={() => setProjectTabs((p) => ({ ...p, [project.id]: "info" }))}>📄 Info</button>
+                  <button
+                    className={`proj-tab${(projectTabs[project.id] || "info") === "info" ? " active" : ""}`}
+                    onClick={() => setProjectTabs((p) => ({ ...p, [project.id]: "info" }))}
+                  >
+                    📄 Info
+                  </button>
                   {project.liveUrl && (
-                    <button className={`proj-tab${projectTabs[project.id] === "preview" ? " active" : ""}`}
-                      onClick={() => setProjectTabs((p) => ({ ...p, [project.id]: "preview" }))}>🌐 Live Preview</button>
+                    <button
+                      className={`proj-tab${projectTabs[project.id] === "preview" ? " active" : ""}`}
+                      onClick={() => setProjectTabs((p) => ({ ...p, [project.id]: "preview" }))}
+                    >
+                      🌐 Live Preview
+                    </button>
                   )}
                 </div>
                 {(projectTabs[project.id] || "info") === "info" && (
@@ -390,14 +395,41 @@ function App() {
                       <span className="preview-url">{project.liveUrl}</span>
                       <a href={project.liveUrl} target="_blank" rel="noreferrer" className="preview-open-btn">↗ Open</a>
                     </div>
-                    <iframe src={project.liveUrl} title={`${project.label} preview`} className="project-iframe"
-                      sandbox="allow-scripts allow-same-origin allow-forms allow-popups" />
+                    <iframe
+                      src={project.liveUrl}
+                      title={`${project.label} preview`}
+                      className="project-iframe"
+                      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                    />
                   </div>
                 )}
               </div>
             )}
 
+            {win === "Resume" && (
+              <div className="project-preview" style={{ height: "100%" }}>
+                <div className="preview-bar">
+                  <span className="preview-url">resume.pdf</span>
+                  <a
+                    href="/resume.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="preview-open-btn"
+                  >
+                    ↗ Open
+                  </a>
+                </div>
+                <iframe
+                  src="/resume.pdf#zoom=85"
+                  title="Resume"
+                  className="project-iframe"
+                  style={{ flex: 1, width: "100%", border: "none" }}
+                />
+              </div>
+            )}
+
             {win === "Notepad" && <Notepad />}
+            {win === "Command Line" && <CommandLine />}
 
             {win === "Documents" && (
               <div className="win-pad">
@@ -406,8 +438,10 @@ function App() {
                 <hr />
                 <h4>Key Courses</h4>
                 <ul>
-                  <li>Web Development</li><li>Cloud Computing</li>
-                  <li>Object-Oriented Programming</li><li>Data Structures & Algorithms</li>
+                  <li>Web Development</li>
+                  <li>Cloud Computing</li>
+                  <li>Object-Oriented Programming</li>
+                  <li>Data Structures & Algorithms</li>
                   <li>Database Management Systems</li>
                 </ul>
               </div>
@@ -416,7 +450,9 @@ function App() {
             {win === "Media Player" && (
               <div className="media-player">
                 <div className="media-visualizer">
-                  {[...Array(20)].map((_, i) => <div key={i} className="media-bar" style={{ animationDelay: `${i * 0.07}s` }} />)}
+                  {[...Array(20)].map((_, i) => (
+                    <div key={i} className="media-bar" style={{ animationDelay: `${i * 0.07}s` }} />
+                  ))}
                 </div>
                 <p className="media-title">🎵 Now Playing: Windows 7 Startup Theme</p>
                 <audio controls autoPlay loop style={{ width: "100%", marginTop: 8 }}>
@@ -430,9 +466,9 @@ function App() {
                 <h3>📬 Contact Me</h3>
                 <table className="contact-table"><tbody>
                   <tr><td>✉️ Email</td><td><a href="mailto:piyushbhalwalkar01@gmail.com">piyushbhalwalkar01@gmail.com</a></td></tr>
-                  <tr><td>🔗 LinkedIn</td><td><a href="https://linkedin.com/in/piyush-bhalwalkar17" target="_blank" rel="noreferrer">piyush-bhalwalkar17</a></td></tr>
+                  <tr><td>📞 Phone</td><td><a href="tel:+919082420911">+91 9082420911</a></td></tr>
                   <tr><td>🐙 GitHub</td><td><a href="https://github.com/piyush17011" target="_blank" rel="noreferrer">piyush17011</a></td></tr>
-                  <tr><td>🌐 Portfolio</td><td><a href="https://piyushportfolio17.netlify.app" target="_blank" rel="noreferrer">piyushportfolio17.netlify.app</a></td></tr>
+                  <tr><td>🌐 Portfolio</td><td><a href="https://piyushportfolio17.netlify.app/" target="_blank" rel="noreferrer">piyushportfolio17.netlify.app</a></td></tr>
                 </tbody></table>
               </div>
             )}
@@ -459,7 +495,6 @@ function App() {
         );
       })}
 
-      {/* Taskbar */}
       <Taskbar
         openWindows={taskbarWindows}
         activeWindow={activeWindow}
@@ -471,7 +506,6 @@ function App() {
         }}
       />
 
-      {/* Context menu */}
       {ctxMenu && (
         <ContextMenu
           x={ctxMenu.x}
@@ -482,14 +516,10 @@ function App() {
             setWallpaperIdx((i) => (i + 1) % WALLPAPERS.length);
             pushNotif("Personalize", "Wallpaper changed!", "🖼️");
           }}
-          onGadgets={() => {
-            setShowClock((v) => !v);
-            pushNotif("Gadgets", showClock ? "Clock hidden." : "Clock gadget shown!", "🕐");
-          }}
+          
         />
       )}
 
-      {/* Notifications */}
       <NotificationContainer notifications={notifications} onDismiss={dismissNotif} />
     </div>
   );

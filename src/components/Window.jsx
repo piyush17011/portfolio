@@ -18,17 +18,16 @@ const Window = ({
   ].filter(Boolean).join(" ");
 
   return (
-    <Draggable
-      nodeRef={nodeRef}
-      handle=".window-header"
-      bounds="parent"
-      defaultPosition={position || { x: 0, y: 0 }}
-      position={isMaximized ? { x: 0, y: 0 } : undefined}
-      disabled={isMaximized}
-      onDrag={(e, data) => onDrag && onDrag(title, data)}
-      onStop={(e, data) => onDragStop && onDragStop(title, data)}
-      onStart={onFocus}
-    >
+  <Draggable
+  nodeRef={nodeRef}
+  handle=".window-header"
+  bounds="parent"
+  position={isMaximized ? { x: 0, y: 0 } : (position || { x: 0, y: 0 })}
+  disabled={isMaximized}
+  onDrag={(e, data) => onDrag && onDrag(title, data)}
+  onStop={(e, data) => onDragStop && onDragStop(title, data)}
+  onStart={onFocus}
+>
       <div
         ref={nodeRef}
         className={cls}

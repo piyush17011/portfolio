@@ -372,6 +372,7 @@ body {
   height: 60px;
 }
 
+
 .media-bar {
   width: 8px;
   background: linear-gradient(to top, #0050ff, #00ccff);
@@ -508,4 +509,24 @@ body {
 .shutdown-win-logo span {
   border-radius: 3px;
   display: block;
+}
+@media (max-width: 600px) {
+  .icons-container {
+    gap: 10px;
+    padding: 12px 6px;
+  }
+
+  .desktop-icon {
+    width: 64px;
+  }
+
+  .icon-img,
+  .icon-img-wrap {
+    width: 40px;
+    height: 40px;
+  }
+
+  .icon-label {
+    font-size: 10px;
+  }
 }

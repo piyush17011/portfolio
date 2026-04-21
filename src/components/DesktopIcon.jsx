@@ -1,24 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./DesktopIcon.css";
 
 const DesktopIcon = ({ icon, label, onClick }) => {
   const [selected, setSelected] = useState(false);
+  const lastTap = useRef(0);
 
-  const handleClick = () => {
-    setSelected(true);
-  };
+  const handleTap = () => {
+    const now = Date.now();
+    const DOUBLE_TAP_MS = 300;
 
-  const handleBlur = () => {
-    setSelected(false);
+    if (now - lastTap.current < DOUBLE_TAP_MS) {
+      // double tap — open
+      onClick && onClick();
+      setSelected(false);
+    } else {
+      // single tap — select
+      setSelected(true);
+    }
+    lastTap.current = now;
   };
 
   return (
     <div
       className={`desktop-icon${selected ? " selected" : ""}`}
       tabIndex={0}
-      onClick={handleClick}
-      onBlur={handleBlur}
-      onDoubleClick={onClick}
+      onClick={handleTap}
+      onBlur={() => setSelected(false)}
       onKeyDown={(e) => e.key === "Enter" && onClick && onClick()}
       role="button"
       aria-label={label}

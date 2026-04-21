@@ -11,12 +11,12 @@ const ALL_ITEMS = [
   { label: "Media Player",       icon: "🎵" },
   { label: "Notepad",            icon: "📝" },
   { label: "Recycle Bin",        icon: "🗑️" },
-  { label: "Shoelify",           icon: "👟" },
-  { label: "Animator's Portfolio", icon: "🎨" },
-  { label: "XO Game",            icon: "❌" },
-  { label: "Sign Language",      icon: "🧠" },
-  { label: "Dabbewala",          icon: "🍱" },
-  { label: "IT Workspace",       icon: "💻" },
+  { label: "Shoelify",            icon: "👟" },
+{ label: "XO",                  icon: "❌" },
+{ label: "RTSLD",               icon: "🧠" },
+{ label: "Animator's Portfolio", icon: "🎨" },
+{ label: "Kisaan Saathi",       icon: "🌾" },
+{ label: "NPM Packages",        icon: "📦" },
 ];
 
 const StartMenu = ({ onClose, onOpenWindow, onShutdown }) => {
@@ -95,12 +95,11 @@ const StartMenu = ({ onClose, onOpenWindow, onShutdown }) => {
                 <span className="sm-prog-desc">piyush17011</span>
               </div>
             </button>
-
-            <button className="sm-program-item" onClick={() => handleLink("https://www.linkedin.com/in/piyush-bhalwalkar17/")}>
+<button className="sm-program-item" onClick={() => window.location.href = "tel:+919082420911"}>
               <div className="sm-prog-icon">🔗</div>
               <div className="sm-prog-info">
-                <span className="sm-prog-name">LinkedIn</span>
-                <span className="sm-prog-desc">piyush-bhalwalkar17</span>
+                <span className="sm-prog-name">Phone </span>
+                <span className="sm-prog-desc">+91 9082420911</span>
               </div>
             </button>
 
