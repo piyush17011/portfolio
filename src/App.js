@@ -71,8 +71,8 @@ const PROJECTS = [
     tagline: "AI assistant app for Indian farmers",
     description: "An AI-assistant Web/android app for Indian farmers with weather API integration and live current market prices of crops.",
     tech: ["React Native", "Python", "MySQL", "Gemini API"],
-    liveUrl: null,
-    githubUrl: "https://github.com/piyush17011/ksaathi",
+    liveUrl: "https://ksaathi.onrender.com/",
+    githubUrl: "https://github.com/piyush17011/kisaan-saathi",
   },
   {
     id: "npm-packages",
