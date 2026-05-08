@@ -25,14 +25,14 @@ const WALLPAPERS = [win7Wallpaper];
 
 const PROJECTS = [
   {
-    id: "shoelify",
-    label: "Shoelify",
+    id: "shuZ",
+    label: "shuZ",
     emoji: "👟",
     tagline: "Ecommerce platform for sneaker heads",
     description: "A full-stack ecommerce website built for sneaker enthusiasts. Features product listings, cart management, and user authentication.",
     tech: ["React", "Node.js", "Express.js", "MongoDB"],
-    liveUrl: "https://shoelify.onrender.com/",
-    githubUrl: "https://github.com/piyush17011/SSHOPLIFY",
+    liveUrl: "https://shuz.onrender.com/",
+    githubUrl: "https://github.com/piyush17011/shuz",
   },
   {
     id: "xo",
@@ -69,10 +69,10 @@ const PROJECTS = [
     label: "Kisaan Saathi",
     emoji: "🌾",
     tagline: "AI assistant app for Indian farmers",
-    description: "An AI-assistant Android app for Indian farmers with weather API integration and live current market prices of crops.",
+    description: "An AI-assistant Web/android app for Indian farmers with weather API integration and live current market prices of crops.",
     tech: ["React Native", "Python", "MySQL", "Gemini API"],
     liveUrl: null,
-    githubUrl: "https://github.com/piyush17011/ks",
+    githubUrl: "https://github.com/piyush17011/ksaathi",
   },
   {
     id: "npm-packages",
